@@ -157,7 +157,7 @@ var App = function App() {
     null,
     React.createElement(
       "span",
-      { style: { height: "1em", width: "1em", backgroundColor: "lightgreen" } },
+      { className: "cursor" },
       "A"
     ),
     React.createElement(Terminal, {

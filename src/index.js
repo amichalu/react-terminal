@@ -119,7 +119,7 @@ const RowList = (props) => {
 const Terminal = withSubscription(RowList)
 
 // Change names of the methods
-const App = () => (<div><span style={{height: "1em",width: "1em", backgroundColor: "lightgreen"}}>A</span>
+const App = () => (<div><span className="cursor">A</span>
   <Terminal 
     onGetRows={DataSource.getRows} 
     onAddChangeListener={DataSource.addChangeListener}

@@ -14,6 +14,19 @@
         border: 1px solid lightgreen;
         border-radius: 0.5em;
       }
+
+      .cursor {
+        opacity: 0;
+        animation: blinking 1s linear infinite;
+        height: 1em;
+        width: 1em;
+        background-color: lightgreen;
+      }
+      @keyframes blinking {
+        from, 49.9% {opacity: 0;} 50%,
+        to { opacity: 1;}
+      }
+
     </style>
   </head>
   <body>
