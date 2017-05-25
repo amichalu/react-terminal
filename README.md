@@ -1,1 +1,1 @@
-Example of React HOC
+## Example use of React HOC approach
