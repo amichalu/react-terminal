@@ -1,35 +1,26 @@
 
-// This function takes a component...
-//function withSubscription(WrappedComponent, ctx, getDataFn, addChangeListenerFn, removeChangeListenerFn, propName) {
 function withSubscription(WrappedComponent) {
-  // ...and returns another component...
+  // ...returns new component
   return class extends React.Component {
     constructor(props) {
       super(props);
       this.handleChange = this.handleChange.bind(this);
       this.state = {
-        //data: getDataFn.call(ctx, [props])
         data: props.onGetRows.call(props.context, props)
       };
     }
     componentDidMount() {
-      // ... that takes care of the subscription...
-      //addChangeListenerFn.call(ctx, this.handleChange);
       this.props.onAddChangeListener.call(this.props.context, this.handleChange);
     }
     componentWillUnmount() {
-      //removeChangeListenerFn.call(ctx, this.handleChange);
       this.props.onRemoveChangeListener.call(this.props.context, this.handleChange);
     }
     handleChange() {
       this.setState({
-        //data: getDataFn.call(ctx, this.props)
         data: this.props.onGetRows.call(this.props.context, this.props)
       });
     }
     render() {
-      // ... and renders the wrapped component with the fresh data!
-      // Notice that we pass through any additional props
       return <WrappedComponent data={this.state.data} {...this.props} />;
     }
   };
@@ -117,11 +108,9 @@ const RowList = (props) => {
     return <div>{props.data.map((el)=>(<div key={i++}>{el}</div>))}</div>
 }
 
-// Terminal is HOC which is kind of container component with function getRows()
-// fired when new data available in DataSource
+// Terminal is HOC, kind of the container component with function getRows() fired when new data available in DataSource
 const Terminal = withSubscription(RowList)
 
-// Change names of the methods
 const App = () => (<div><span className="cursor">A</span>
   <Terminal 
     onGetRows={DataSource.getRows} //getRows() function which is called when new data available in DataSource
@@ -135,8 +124,10 @@ ReactDOM.render(
   document.getElementById('root')
 )
 
+// DataSource is starting to emit new data
 DataSource.start()
 
+// Delay for removing DataSource listeners, after this Terminal will stop reacting to changes
 setTimeout(()=>{
   DataSource.addRow("==========================================================")
   DataSource.addRow("enough..........removing all listeners from DataSource")
