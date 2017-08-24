@@ -4,7 +4,7 @@
 
 The aim was to make the React component which could listen to external events, receive & render data and knows nothing about the source of the data.
 
-From the other side I wanted to have the pure data source object which knows nothing about visual rendering.
+From the other side I wanted to have a pure data source object which knows nothing about visual rendering.
 
 :smile: Live demo: https://rhoc.amovile.com
 
@@ -20,8 +20,7 @@ open public/index.html in your browser
 #### Design
 
 The RowList is visual, presentational component which renders data on the screen.
-All it has to know is that it receives update through 'data' prop
-It doesn't know how to get data and it is fine !!!!
+All it has to know is that it receives update through the 'data' prop. It doesn't know how to get data. And it is fine !!!!
 
 ```JavaScript
 const RowList = (props) => {
@@ -37,7 +36,7 @@ const Terminal = withSubscription(RowList)
 ```
 
 We bind the Terminal component with DataSource methods
-```JavaScript
+```JSX
 const App = () => (<div><span className="cursor">A</span>
   <Terminal 
     onGetRows={DataSource.getRows} 
@@ -47,7 +46,7 @@ const App = () => (<div><span className="cursor">A</span>
 </div>)
 ```
 
-DataSource is object which generates data, obviously it should be a real source like database, websocket, iot device, etc.
+DataSource is an object which generates the data. Obviously it should be a real source like database, websocket, iot device through webservice, etc.
 ```JavaScript
 DataSource.start()
 ```
