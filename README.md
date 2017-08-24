@@ -1,13 +1,14 @@
-#### Example of React Higher Order Components
+### An example of React Higher Order Components
 
-##### Motivation
+#### The motivation
 
-The aim was to make React component which could listen to external events and print events to the browser pretending terminal. 
-After a few events are sent component stops listening events.
+The aim was to make React component which could listen to external events, receive & render data and knew nothing about the source of the data.
+
+From the other side I wanted to have pure data source object which knows nothing about visual rendering.
 
 :smile: Live demo: https://rhoc.amovile.com
 
-##### Install
+#### Install
 
 npm install gulp-cli -g
 (if don't have yet)
@@ -16,7 +17,7 @@ npm install && gulp
 
 open public/index.html in your browser
 
-##### Design
+#### Design
 
 The RowList is visual, presentational component which renders data on the screen.
 All it has to know is that it receives update through 'data' prop
@@ -51,7 +52,7 @@ DataSource is object which generates data, obviously it should be a real source 
 DataSource.start()
 ```
 
-We stop emiting data changes after a while
+We stop emitting data changes after a while
 ```JavaScript
 setTimeout(()=>{
   DataSource.addRow("enough..........removing all listeners")
