@@ -63,7 +63,6 @@ function withSubscription(WrappedComponent) {
   }(React.Component);
 }
 // -------------------------------------------------------------------------------
-
 var prompt = "tecmint@tecmint ~ ";
 var termOut = [];
 termOut[0] = {
@@ -90,6 +89,7 @@ termOut[5] = {
   cmd: "exit",
   out: ["exit", "Script done, file is script.log"]
 };
+
 var DataSource = {
   cl: [],
   rows: [],
@@ -141,7 +141,7 @@ var RowList = function RowList(props) {
     props.data.map(function (el) {
       return React.createElement(
         "div",
-        { className: "", key: i++ },
+        { key: i++ },
         el
       );
     })
@@ -162,10 +162,11 @@ var App = function App() {
       "A"
     ),
     React.createElement(Terminal, {
-      onGetRows: DataSource.getRows,
-      onAddChangeListener: DataSource.addChangeListener,
-      onRemoveChangeListener: DataSource.removeChangeListener,
-      context: DataSource })
+      onGetRows: DataSource.getRows //getRows() function which is called when new data available in DataSource
+      , onAddChangeListener: DataSource.addChangeListener //addChangeListener() function for registering change listener, Terminal passes handleChange() as change handle
+      , onRemoveChangeListener: DataSource.removeChangeListener //During unmounting DataSource removes Terminal.handleChange() from listeners
+      , context: DataSource }),
+    " "
   );
 };
 
@@ -176,6 +177,7 @@ DataSource.start();
 
 // Stop emiting data
 setTimeout(function () {
-  DataSource.addRow("enough..........removing all listeners");
+  DataSource.addRow("==========================================================");
+  DataSource.addRow("enough..........removing all listeners from DataSource");
   DataSource.removeAllListeners();
-}, 10000);
+}, 6000);

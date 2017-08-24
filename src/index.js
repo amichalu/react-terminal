@@ -1,7 +1,7 @@
 
 // This function takes a component...
 function withSubscription(WrappedComponent) {
-  // ...and returns another component...
+  // ...returns new component
   return class extends React.Component {
     constructor(props) {
       super(props);
@@ -32,7 +32,6 @@ function withSubscription(WrappedComponent) {
   };
 }
 // -------------------------------------------------------------------------------
-
 let prompt = "tecmint@tecmint ~ "
 let termOut = []
 termOut[0] = { 
@@ -68,6 +67,7 @@ termOut[5] = {
   cmd: "exit",
   out: [ "exit", "Script done, file is script.log"]
 }
+
 let DataSource = {
   cl: [],
   rows: [],
@@ -113,7 +113,7 @@ let DataSource = {
 const RowList = (props) => {
   let i=0;
   if (props.data instanceof Array) 
-    return <div>{props.data.map((el)=>(<div className="" key={i++}>{el}</div>))}</div>
+    return <div>{props.data.map((el)=>(<div key={i++}>{el}</div>))}</div>
 }
 
 // Constructing the Terminal component which is kind of the glue between RowList (presentation) and DataSource (source of data)
@@ -122,10 +122,10 @@ const Terminal = withSubscription(RowList)
 // We bind the Terminal component with DataSource methods
 const App = () => (<div><span className="cursor">A</span>
   <Terminal 
-    onGetRows={DataSource.getRows} 
-    onAddChangeListener={DataSource.addChangeListener}
-    onRemoveChangeListener={DataSource.removeChangeListener}
-    context={DataSource}/>
+    onGetRows={DataSource.getRows} //getRows() function which is called when new data available in DataSource
+    onAddChangeListener={DataSource.addChangeListener} //addChangeListener() function for registering change listener, Terminal passes handleChange() as change handle
+    onRemoveChangeListener={DataSource.removeChangeListener} //During unmounting DataSource removes Terminal.handleChange() from listeners
+    context={DataSource}/> {/**context passed for proper js function calls**/}
 </div>)
 
 ReactDOM.render(
@@ -138,6 +138,7 @@ DataSource.start()
 
 // Stop emiting data
 setTimeout(()=>{
-  DataSource.addRow("enough..........removing all listeners")
+  DataSource.addRow("==========================================================")
+  DataSource.addRow("enough..........removing all listeners from DataSource")
   DataSource.removeAllListeners()
-},10000)
+},6000)
