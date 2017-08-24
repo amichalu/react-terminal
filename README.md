@@ -1,10 +1,10 @@
-### An example of React Higher Order Components
+### An example of the React Higher Order Components
 
 #### The motivation
 
-The aim was to make React component which could listen to external events, receive & render data and knew nothing about the source of the data.
+The aim was to make the React component which could listen to external events, receive & render data and knows nothing about the source of the data.
 
-From the other side I wanted to have pure data source object which knows nothing about visual rendering.
+From the other side I wanted to have the pure data source object which knows nothing about visual rendering.
 
 :smile: Live demo: https://rhoc.amovile.com
 
