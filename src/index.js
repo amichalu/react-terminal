@@ -1,6 +1,5 @@
 
 // This function takes a component...
-//function withSubscription(WrappedComponent, ctx, getDataFn, addChangeListenerFn, removeChangeListenerFn, propName) {
 function withSubscription(WrappedComponent) {
   // ...and returns another component...
   return class extends React.Component {
@@ -8,28 +7,26 @@ function withSubscription(WrappedComponent) {
       super(props);
       this.handleChange = this.handleChange.bind(this);
       this.state = {
-        //data: getDataFn.call(ctx, [props])
         data: props.onGetRows.call(props.context, props)
       };
     }
     componentDidMount() {
       // ... that takes care of the subscription...
-      //addChangeListenerFn.call(ctx, this.handleChange);
       this.props.onAddChangeListener.call(this.props.context, this.handleChange);
+      console.log("Component started listening");
     }
     componentWillUnmount() {
-      //removeChangeListenerFn.call(ctx, this.handleChange);
       this.props.onRemoveChangeListener.call(this.props.context, this.handleChange);
+      console.log("Component stopped listening");
     }
     handleChange() {
       this.setState({
-        //data: getDataFn.call(ctx, this.props)
         data: this.props.onGetRows.call(this.props.context, this.props)
       });
+      console.log("Component updates data");
     }
     render() {
       // ... and renders the wrapped component with the fresh data!
-      // Notice that we pass through any additional props
       return <WrappedComponent data={this.state.data} {...this.props} />;
     }
   };
@@ -109,16 +106,20 @@ let DataSource = {
     }, 1000)
   }
 }
-
+// ------------------------------------------------------------------------------
+// The RowList is visual, presentational component
+// All it has to know is that it receives update through 'data' prop
+// It doesn't know how to get data and it is fine !!!!
 const RowList = (props) => {
   let i=0;
   if (props.data instanceof Array) 
     return <div>{props.data.map((el)=>(<div className="" key={i++}>{el}</div>))}</div>
 }
 
+// Constructing the Terminal component which is kind of the glue between RowList (presentation) and DataSource (source of data)
 const Terminal = withSubscription(RowList)
 
-// Change names of the methods
+// We bind the Terminal component with DataSource methods
 const App = () => (<div><span className="cursor">A</span>
   <Terminal 
     onGetRows={DataSource.getRows} 
@@ -132,8 +133,10 @@ ReactDOM.render(
   document.getElementById('root')
 )
 
+// Start of generating data
 DataSource.start()
 
+// Stop emiting data
 setTimeout(()=>{
   DataSource.addRow("enough..........removing all listeners")
   DataSource.removeAllListeners()

@@ -13,7 +13,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 // This function takes a component...
-//function withSubscription(WrappedComponent, ctx, getDataFn, addChangeListenerFn, removeChangeListenerFn, propName) {
 function withSubscription(WrappedComponent) {
   // ...and returns another component...
   return function (_React$Component) {
@@ -26,7 +25,6 @@ function withSubscription(WrappedComponent) {
 
       _this.handleChange = _this.handleChange.bind(_this);
       _this.state = {
-        //data: getDataFn.call(ctx, [props])
         data: props.onGetRows.call(props.context, props)
       };
       return _this;
@@ -36,28 +34,27 @@ function withSubscription(WrappedComponent) {
       key: "componentDidMount",
       value: function componentDidMount() {
         // ... that takes care of the subscription...
-        //addChangeListenerFn.call(ctx, this.handleChange);
         this.props.onAddChangeListener.call(this.props.context, this.handleChange);
+        console.log("Component started listening");
       }
     }, {
       key: "componentWillUnmount",
       value: function componentWillUnmount() {
-        //removeChangeListenerFn.call(ctx, this.handleChange);
         this.props.onRemoveChangeListener.call(this.props.context, this.handleChange);
+        console.log("Component stopped listening");
       }
     }, {
       key: "handleChange",
       value: function handleChange() {
         this.setState({
-          //data: getDataFn.call(ctx, this.props)
           data: this.props.onGetRows.call(this.props.context, this.props)
         });
+        console.log("Component updates data");
       }
     }, {
       key: "render",
       value: function render() {
         // ... and renders the wrapped component with the fresh data!
-        // Notice that we pass through any additional props
         return React.createElement(WrappedComponent, _extends({ data: this.state.data }, this.props));
       }
     }]);
@@ -132,7 +129,10 @@ var DataSource = {
     }, 1000);
   }
 };
-
+// ------------------------------------------------------------------------------
+// The RowList is visual, presentational component
+// All it has to know is that it receives update through 'data' prop
+// It doesn't know how to get data and it is fine !!!!
 var RowList = function RowList(props) {
   var i = 0;
   if (props.data instanceof Array) return React.createElement(
@@ -148,9 +148,10 @@ var RowList = function RowList(props) {
   );
 };
 
+// Constructing the Terminal component which is kind of the glue between RowList (presentation) and DataSource (source of data)
 var Terminal = withSubscription(RowList);
 
-// Change names of the methods
+// We bind the Terminal component with DataSource methods
 var App = function App() {
   return React.createElement(
     "div",
@@ -170,8 +171,10 @@ var App = function App() {
 
 ReactDOM.render(React.createElement(App, null), document.getElementById('root'));
 
+// Star of generating data
 DataSource.start();
 
+// Stop emiting data
 setTimeout(function () {
   DataSource.addRow("enough..........removing all listeners");
   DataSource.removeAllListeners();
