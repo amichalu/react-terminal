@@ -1,19 +1,27 @@
 {
-  "name": "r1",
-  "version": "1.0.0",
-  "description": "",
+  "name": "react-hoc-terminal",
+  "version": "1.1",
+  "description": "<script src=\"https://unpkg.com/react@16/umd/react.development.js\" crossorigin></script>",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack"
-  },
-  "author": "",
-  "license": "ISC",
+  "repository": "https://github.com/amichalu/react-hoc-terminal.git",
+  "author": "Adam Michalunio",
+  "license": "MIT",
+  "dependencies": {},
   "devDependencies": {
-    "babel-cli": "^6.24.1",
-    "babel-preset-env": "^1.4.0",
-    "babel-preset-react": "^6.24.1",
-    "gulp": "^3.9.1",
-    "gulp-babel": "^6.1.2"
+    "@babel/cli": "^7.5.0",
+    "@babel/core": "^7.5.4",
+    "@babel/preset-env": "^7.5.4",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.6",
+    "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
+    "gulp-cli": "^2.2.0",
+    "webpack": "^4.35.3",
+    "webpack-cli": "^3.3.5",
+    "webpack-dev-server": "^3.7.2"
+  },
+  "scripts": {
+    "start": "webpack-dev-server",
+    "build": "webpack --config webpack.config.js"
   }
 }

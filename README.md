@@ -6,16 +6,12 @@ The aim was to make the React component which could listen to external events, r
 
 From the other side I wanted to have a pure data source object which knows nothing about visual rendering.
 
-:smile: Live demo: https://rhoc.amovile.com
+:smile: Live demo: https://rhoc.amovile.com (to be updated)
 
 #### Install
+yarn && yarn start
 
-npm install gulp-cli -g
-(if don't have yet)
-
-npm install && gulp
-
-open public/index.html in your browser
+open http://localhost:9000 in your browser
 
 #### Design
 
